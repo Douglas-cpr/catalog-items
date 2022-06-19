@@ -1,8 +1,9 @@
 using Catalog.Entities;
+using Catalog.Repositories.Contracts;
 
 namespace Catalog.Repositories
 {
-  public class InMemItemsRepository 
+  public class InMemItemsRepository : IItemsRepository
   {
     private readonly List<Item> items = new() 
     {
@@ -11,8 +12,12 @@ namespace Catalog.Repositories
       new Item { Id = Guid.NewGuid(), Name = "Bronze Shield", Price = 30, CreatedDate = DateTimeOffset.UtcNow }
     };
 
-    public IEnumerable<Item> GetItems => items;
+    public IEnumerable<Item> GetItems() {
+      return items;
+    } 
 
-    public Item GetItem(Guid id) => items.FirstOrDefault(item => item.Id == id);
+    public Item GetItem(Guid id) { 
+      return items.FirstOrDefault(item => item.Id == id);
+    }
   }
 }
