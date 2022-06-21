@@ -17,22 +17,23 @@ namespace Catalog.Controllers
     }
  
     [HttpGet]
-    public IEnumerable<ItemDTO> GetItems() 
+    public async Task<IEnumerable<ItemDTO>> GetItemsAsync() 
     {
-      var items = _repository.GetItems().Select(item => item.AsDTO());
+      var items = (await _repository.GetItemsAsync())
+                  .Select(item => item.AsDTO());
       return items;
     } 
 
     [HttpGet("{id}")]
-    public ActionResult<ItemDTO> GetItem(Guid id) 
+    public async Task<ActionResult<ItemDTO>> GetItemAsync(Guid id) 
     {
-      var item = _repository.GetItem(id);
+      var item = await _repository.GetItemAsync(id);
       if (item is null) return NotFound();
       return Ok(item.AsDTO());
     }
 
     [HttpPost]
-    public ActionResult<ItemDTO> CreateItem(CreateItemDTO itemDTO)
+    public async Task<ActionResult<ItemDTO>> CreateItemAsync(CreateItemDTO itemDTO)
     {
       Item item = new() {
         Id = Guid.NewGuid(),
@@ -40,31 +41,31 @@ namespace Catalog.Controllers
         Price = itemDTO.Price,
         CreatedDate = DateTimeOffset.UtcNow
       };
-      _repository.CreateItem(item);
-      return CreatedAtAction(nameof(GetItem), new { id = item.Id }, item.AsDTO());
+      await _repository.CreateItemAsync(item);
+      return CreatedAtAction(nameof(GetItemAsync), new { id = item.Id }, item.AsDTO());
     }
 
     [HttpPut("{id}")]
-    public ActionResult UpdateItem(Guid id, UpdateItemDTO itemDTO) 
+    public async Task<ActionResult> UpdateItemAsync(Guid id, UpdateItemDTO itemDTO) 
     {
-      var existing = _repository.GetItem(id);
+      var existing = await _repository.GetItemAsync(id);
       if (existing is null) return NotFound();
       Item updatedItem = existing with 
       {
         Name = itemDTO.Name,
         Price = itemDTO.Price
       };
-      _repository.UpdateItem(updatedItem);
+      await _repository.UpdateItemAsync(updatedItem);
       return NoContent();
     }
 
 
     [HttpDelete("{id}")]
-    public ActionResult DeleteItem(Guid id)
+    public async Task<ActionResult> DeleteItemAsync(Guid id)
     {
-      var existing = _repository.GetItem(id);
+      var existing = await _repository.GetItemAsync(id);
       if (existing is null) return NotFound();
-      _repository.DeleteItem(id);
+      await _repository.DeleteItemAsync(id);
       return NoContent();
     }
   }
