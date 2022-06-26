@@ -32,7 +32,7 @@ builder.Services
         name: "mongodb", 
         timeout: TimeSpan.FromSeconds(5),
         tags: new[]{ "ready" });
-
+        
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
