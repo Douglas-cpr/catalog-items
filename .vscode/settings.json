@@ -4,5 +4,6 @@
     "mongoadmin",
     "mongodb",
     "statefulset"
-  ]
+  ],
+  "dotnet-test-explorer.testProjectPath": "**/*Tests.csproj"
 }

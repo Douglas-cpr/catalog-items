@@ -1,0 +1,48 @@
+{
+  "format": 1,
+  "restore": {
+    "/Users/douglasvinicius/Documentos/cursos/freecodecamp-c#/Catalog/build.proj": {}
+  },
+  "projects": {
+    "/Users/douglasvinicius/Documentos/cursos/freecodecamp-c#/Catalog/build.proj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/douglasvinicius/Documentos/cursos/freecodecamp-c#/Catalog/build.proj",
+        "projectName": "build",
+        "projectPath": "/Users/douglasvinicius/Documentos/cursos/freecodecamp-c#/Catalog/build.proj",
+        "packagesPath": "/Users/douglasvinicius/.nuget/packages/",
+        "outputPath": "/Users/douglasvinicius/Documentos/cursos/freecodecamp-c#/Catalog/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/douglasvinicius/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net45"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net45": {
+            "targetAlias": "net45",
+            "projectReferences": {}
+          }
+        }
+      },
+      "frameworks": {
+        "net45": {
+          "targetAlias": "net45",
+          "dependencies": {
+            "Microsoft.NETFramework.ReferenceAssemblies": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[1.0.2, )",
+              "autoReferenced": true
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/6.0.301/RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
