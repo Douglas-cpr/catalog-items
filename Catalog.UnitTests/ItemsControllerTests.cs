@@ -36,10 +36,7 @@ public class ItemsControllerTests
         var controller = new ItemsController(_repositoryStub.Object, _loggerStub.Object);
         var response = await controller.GetItemAsync(Guid.NewGuid());
         var result = ((OkObjectResult)response.Result).Value;
-        result.Should().BeEquivalentTo(
-            expectedItem,
-            options => options.ComparingByMembers<Item>()
-            );
+        result.Should().BeEquivalentTo(expectedItem);
     }
 
     
@@ -52,11 +49,28 @@ public class ItemsControllerTests
         .ReturnsAsync(expectedItems);
         var controller = new ItemsController(_repositoryStub.Object, _loggerStub.Object);
         var actualItems = await controller.GetItemsAsync();
-        actualItems.Should().BeEquivalentTo(
-            expectedItems,
-            options => options.ComparingByMembers<Item>()
-        );
+        actualItems.Should().BeEquivalentTo(expectedItems);
     }
+
+    [Fact]
+    public async Task GetItemsAsync_WithMatchingItems_ReturnsMatchingItems()
+    {
+        var allItems = new[]
+        { 
+            new Item() { Name = "Potion" },
+            new Item() { Name = "Antidote" },
+            new Item() { Name = "Hi-Potion" },
+        };
+        var nameToMatch = "Potion";
+        _repositoryStub.Setup(repo => repo
+        .GetItemsAsync())
+        .ReturnsAsync(allItems);
+        var controller = new ItemsController(_repositoryStub.Object, _loggerStub.Object);
+        IEnumerable<ItemDTO> foundItems = await controller.GetItemsAsync(nameToMatch);
+        foundItems.Should().OnlyContain(
+            item => item.Name.Contains(nameToMatch)
+        );
+    } 
 
     [Fact]
     public async Task CreateItemAsync_WithItemToCreate_ReturnsCreatedItem()
