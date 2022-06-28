@@ -1,4 +1,4 @@
-using Catalog.Api.Api.Dtos;
+using Catalog.Api.Dtos;
 using Catalog.Api.Api.Entities;
 using Catalog.Api.Api.Repositories.Contracts;
 using Microsoft.AspNetCore.Mvc;
@@ -41,6 +41,7 @@ namespace Catalog.Api.Api.Controllers
       Item item = new() {
         Id = Guid.NewGuid(),
         Name = itemDTO.Name,
+        Description = itemDTO.Description,
         Price = itemDTO.Price,
         CreatedDate = DateTimeOffset.UtcNow
       };
@@ -53,12 +54,9 @@ namespace Catalog.Api.Api.Controllers
     {
       var existing = await _repository.GetItemAsync(id);
       if (existing is null) return NotFound();
-      Item updatedItem = existing with 
-      {
-        Name = itemDTO.Name,
-        Price = itemDTO.Price
-      };
-      await _repository.UpdateItemAsync(updatedItem);
+      existing.Name = itemDTO.Name;
+      existing.Price = itemDTO.Price;
+      await _repository.UpdateItemAsync(existing);
       return NoContent();
     }
 

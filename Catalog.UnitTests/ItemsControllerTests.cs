@@ -1,5 +1,5 @@
 using Catalog.Api.Api.Controllers;
-using Catalog.Api.Api.Dtos;
+using Catalog.Api.Dtos;
 using Catalog.Api.Api.Entities;
 using Catalog.Api.Api.Repositories.Contracts;
 using FluentAssertions;
@@ -61,10 +61,7 @@ public class ItemsControllerTests
     [Fact]
     public async Task CreateItemAsync_WithItemToCreate_ReturnsCreatedItem()
     {
-        var itemToCreate = new CreateItemDTO() {
-            Name = Guid.NewGuid().ToString(),
-            Price = random.Next(1000)
-        };
+        var itemToCreate = new CreateItemDTO(Guid.NewGuid().ToString(), Guid.NewGuid().ToString(), random.Next(1000));
         var controller = new ItemsController(_repositoryStub.Object, _loggerStub.Object);
         var result = await controller.CreateItemAsync(itemToCreate);
         var createdItem = (result.Result as CreatedAtActionResult).Value as ItemDTO;
@@ -87,10 +84,7 @@ public class ItemsControllerTests
             .ReturnsAsync(existingItem);
 
         var itemId = existingItem.Id;
-        var itemToUpdate = new UpdateItemDTO() {
-            Name = Guid.NewGuid().ToString(),
-            Price = existingItem.Price + 3
-        };
+        var itemToUpdate = new UpdateItemDTO(Guid.NewGuid().ToString(), Guid.NewGuid().ToString(), existingItem.Price + 3);
         var controller = new ItemsController(_repositoryStub.Object, _loggerStub.Object);
         var result = await controller.UpdateItemAsync(itemId, itemToUpdate);
         result.Should().BeOfType<NoContentResult>();
